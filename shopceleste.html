@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saveur Céleste - Détails du Produit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #000000;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Conteneur pour reproduire le format mobile exact de votre capture */
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            min-height: 100vh;
+            border: 1px solid #eaeaea;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Bouton Retour */
+        .back-nav {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #000000;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 25px;
+            cursor: pointer;
+        }
+
+        .back-nav span {
+            margin-left: 10px;
+            font-size: 1.3rem;
+        }
+
+        /* Galerie d'images */
+        .product-gallery {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .main-image-container {
+            width: 100%;
+            height: 380px;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .main-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .thumbnails-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .thumbnail {
+            width: 65px;
+            height: 65px;
+            border-radius: 8px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .thumbnail.active {
+            border-color: #000000;
+        }
+
+        /* Détails textuels du produit */
+        .product-info h1 {
+            font-size: 1.6rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .status-available {
+            font-size: 0.85rem;
+            color: #555555;
+            margin-bottom: 20px;
+        }
+
+        /* Section Accordéon Description */
+        .description-header {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .description-arrow {
+            font-size: 0.7rem;
+            margin-left: 8px;
+        }
+
+        .description-content {
+            font-size: 0.85rem;
+            color: #444444;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .description-content p {
+            margin-bottom: 15px;
+        }
+
+        .limited-stock {
+            color: #000000;
+            font-weight: 600;
+        }
+
+        /* Prix */
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Sélecteurs de couleur ronds */
+        .color-selectors {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #e0e0e0;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .color-dot.active {
+            transform: scale(1.2);
+            border:#000000 solid 2px;
+        }
+
+        /* Couleurs indicatives pour vos chocolats (Noir, Lait, Blanc) */
+        .dot-dark { background-color: #3d2415; }
+        .dot-milk { background-color: #7b4c2e; }
+        .dot-white { background-color: #f7eedb; }
+
+        /* Actions d'achat de la barre inférieure */
+        .purchase-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: auto;
+            padding-bottom: 10px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid #cccccc;
+            border-radius: 20px;
+            padding: 8px 15px;
+            gap: 15px;
+            font-size: 0.9rem;
+        }
+
+        .quantity-btn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: #000000;
+            padding: 0 4px;
+        }
+
+        .cart-btn {
+            flex-grow: 1;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 20px;
+            padding: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Navigation Retour -->
+        <a href="saveurceleste.html" class="back-nav" onclick="window.history.back(); return false;">
+            ← <span>Back</span>
+        </a>
+
+        <!-- Galerie d'images interactive -->
+        <div class="product-gallery">
+            <div class="main-image-container">
+                <!-- Image principale par défaut -->
+                <img id="mainProductImg" src="bouquet1.jpg" alt="Bouquet en fleur en chocolat">
+            </div>
+            
+            <div class="thumbnails-row">
+                <!-- Vos deux visuels locaux réels et un placeholder tiers -->
+                <img class="thumbnail active" src="bouquet1.jpg" alt="Miniature 1" onclick="changeImage(this)">
+                <img class="thumbnail" src="bouquet2.jpg" alt="Miniature 2" onclick="changeImage(this)">
+                <img class="thumbnail" src="bouquet3.jpg" alt="Miniature 3" onclick="changeImage(this)">
+            </div>
+        </div>
+
+        <!-- Section Infos Produit -->
+        <div class="product-info">
+            <h1>Bouquet en fleur en chocolat</h1>
+            <div class="status-available">Available</div>
+
+            <!-- Description -->
+            <div class="description-header">
+                Description <span class="description-arrow">▲</span>
+            </div>
+            
+            <div class="description-content">
+                <p>Un magnifique bouquet composé de délicates fleurs sculptées à base de chocolat fin. Une alternative élégante et gourmande aux fleurs traditionnelles, parfaite pour offrir une attention inoubliable.</p>
+                <p>Fait à la main avec du chocolat de couverture de qualité supérieure (noir, au lait et blanc) fourrées de caramel et fruits secs .</p>
+                <p class="limited-stock">Limited quantity ❌</p>
+            </div>
+
+            <!-- Prix mis à jour -->
+            <div class="product-price">1500 DA</div>
+
+            <!-- Variations Chocolats -->
+            <div class="color-selectors">
+                <div class="color-dot dot-dark" title="Chocolat Noir"></div>
+                <div class="color-dot dot-milk" title="Chocolat au Lait"></div>
+                <div class="color-dot dot-white" title="Chocolat Blanc"></div>
+            </div>
+        </div>
+
+        <!-- Boutons d'interaction bas de page -->
+    <div class="purchase-actions">
+    <div class="quantity-selector">
+        <button class="quantity-btn" onclick="updateQty(-1)">-</button>
+        <span id="quantityValue">1</span>
+        <button class="quantity-btn" onclick="updateQty(1)">+</button>
+    </div>
+    
+    <button class="cart-btn" onclick="addtocartandredirect()">
+        Cart it 🛍️
+    </button>
+</div>
+
+<script>
+    let selectedColor = 'Chocolat Noir';
+    let currentQty = 1; // ✅ moved to global scope
+
+    const colorvalues = {
+        'dot-dark': 'Chocolat Noir',
+        'dot-milk': 'Chocolat au Lait',
+        'dot-white': 'Chocolat Blanc'
+    }
+    document.querySelectorAll('.color-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+            document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+            dot.classList.add('active');
+            selectedColor = colorvalues[dot.classList[1]]; // ✅ update selected color
+        });
+    });
+
+    function changeImage(element) {
+        const mainImg = document.getElementById('mainProductImg');
+        mainImg.style.opacity = '0.3';
+        setTimeout(() => {
+            mainImg.src = element.src;
+            mainImg.style.opacity = '1';
+        }, 150);
+        document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+        element.classList.add('active');
+    }
+
+    function updateQty(amount) {
+        currentQty += amount;
+        if (currentQty < 1) currentQty = 1;
+        document.getElementById('quantityValue').innerText = currentQty;
+    }
+
+    function addtocartandredirect() {
+        const mainImg = document.getElementById('mainProductImg');
+        const currentimg = mainImg ? mainImg.src : 'bouquet1.jpg';
+        const orderdata = {
+            image: currentimg,
+            name: 'Bouquet en fleur en chocolat',
+            color: selectedColor,
+            colorHex: getComputedStyle(document.querySelector('.color-dot.active')).backgroundColor,
+            quantity: currentQty,
+            price: 1500
+        };
+        localStorage.setItem('savedcartitem', JSON.stringify(orderdata)); // ✅ saves first
+        window.location.href = 'cartceleste.html'; // ✅ then redirects
+    }
+</script>
+    </div>
+
+</body>
+</html>

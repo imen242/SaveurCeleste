@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saveur Céleste - Your Cart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #000000;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            min-height: 100vh;
+            border: 1px solid #eaeaea;
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+            position: relative;
+        }
+
+        /* Titre du panier */
+        .cart-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin: 20px 0 40px 0;
+        }
+
+        /* Carte de l'article dans le panier */
+        .cart-item-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-item-image {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .cart-item-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .item-name {
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .item-meta {
+            font-size: 0.8rem;
+            color: #555555;
+        }
+        .color-circle {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid #ccc;
+        }
+
+        .item-price {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+
+        .remove-btn {
+            font-size: 0.8rem;
+            color: #ff3b30;
+            text-decoration: none;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            margin-top: 5px;
+            width: fit-content;
+        }
+
+        /* Résumé de la commande */
+        .order-summary {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 25px 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .summary-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .summary-details {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #444444;
+            line-height: 1.6;
+        }
+
+        .summary-total {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            border-top: 1px solid #eaeaea;
+            padding-top: 15px;
+        }
+
+        /* Bouton de validation */
+        .checkout-btn {
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            padding: 14px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: lowercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .checkout-arrow {
+            font-size: 1.1rem;
+            background: rgba(255,255,255,0.2);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        /* État panier vide */
+        .empty-cart-msg {
+            text-align: center;
+            color: #777777;
+            font-size: 0.9rem;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <h1 class="cart-title">Your cart</h1>
+        <div id="cartContent">
+        </div>
+        <div id="summaryContent">
+        </div>
+    </div>
+    <script>
+        const cartContent = document.getElementById('cartContent');
+        const summaryContent = document.getElementById('summaryContent');
+
+        const savedItem = localStorage.getItem('savedcartitem');
+
+        if (savedItem) {
+            const item = JSON.parse(savedItem);
+            const total = item.price * item.quantity;
+
+            cartContent.innerHTML = `
+                <div class="cart-item-card">
+                    <img class="cart-item-image" src="${item.image}" alt="${item.name}">
+                    <div class="cart-item-details">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-meta">
+                            <span class="color-circle" style="background-color: ${item.colorHex || '#3d2415'};"></span>
+                            ${item.color}
+                        </div>
+                        <div class="item-meta">Quantity: ${item.quantity}</div>
+                        <div class="item-price">${total} DA</div>
+                        <button class="remove-btn" onclick="removeItem()">remove</button>
+                    </div>
+                </div>
+            `;
+
+            summaryContent.innerHTML = `
+                <div class="order-summary">
+                    <div class="summary-title">Order Summary</div>
+                    <div class="summary-details">
+                        Products:<br>${item.name} (${item.quantity})
+                    </div>
+                    <div class="summary-total">Total: ${total} DZD</div>
+                    <button class="checkout-btn" onclick="window.location.href='checkoutceleste.html'">
+                        checkout
+                        <span class="checkout-arrow">→</span>
+                    </button>
+                </div>
+            `;
+        } else {
+            cartContent.innerHTML = `
+                <p class="empty-cart-msg">Your cart is empty 🛒</p>
+            `;
+        }
+
+        function removeItem() {
+            localStorage.removeItem('savedcartitem');
+            cartContent.innerHTML = `<p class="empty-cart-msg">Your cart is empty 🛒</p>`;
+            summaryContent.innerHTML = '';
+        }
+    </script>
+</body>
+</html>
