@@ -319,11 +319,13 @@
     function addtocartandredirect() {
         const mainImg = document.getElementById('mainProductImg');
         const currentimg = mainImg ? mainImg.src : 'bouquet1.jpg';
+        const activeColorDot =document.querySelector('.color-dot.active');
+        const chosenColor = activeColorDot ? getComputedStyle (activeColorDot) .backgroundColor:'transparent';
         const orderdata = {
             image: currentimg,
             name: 'Bouquet en fleur en chocolat',
             color: selectedColor,
-            colorHex: getComputedStyle(document.querySelector('.color-dot.active')).backgroundColor,
+            colorHex: chosenColor,
             quantity: currentQty,
             price: 1500
         };
