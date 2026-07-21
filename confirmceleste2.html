@@ -288,10 +288,10 @@
 
         <form id="shippingForm" onsubmit="return false;">
             
-            <h3>Chocolates</h3>
+            <h3>Tartelettes</h3>
 
             <div class="form-group">
-                <label class="section-label" for="chocolate-qty">Number of chocolate flowers wanted</label>
+                <label class="section-label" for="chocolate-qty">Number of tarts wanted</label>
                 <input type="text" id="chocolate-qty" placeholder="e.g. 6, 12, 24..">
             </div>
 
@@ -302,7 +302,7 @@
                 </div>
             </div> -->
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label class="section-label">Type de la farce <span class="optional-text">(Plusieurs choix possibles)</span></label>
                 <div class="checkbox-group">
                     <label class="custom-checkbox">
@@ -318,7 +318,7 @@
                         <input type="checkbox" name="farce" value="Fruits secs"> Fruits secs
                     </label>
                 </div>
-            </div>
+            </div> -->
 
             <div class="form-group">
                 <select id="region-select">
@@ -341,8 +341,8 @@
             </div>
 
             <div class="form-group">
-                <label class="section-label" for="article's name">article's name</label>
-                <textarea id="article's name" placeholder="please write the name of your article to avoid any mismatch and other details if wanted" required></textarea>
+                <label class="section-label" for="articale's name">articale's name </label>
+                <textarea id="article's name" placeholder="please write the name of your articale to avoid any mismatch and other details if wanted" required></textarea>
             </div>
 
             <div class="btn-group">
@@ -390,15 +390,15 @@
             const customer = savedCustomerInfo ? JSON.parse(savedCustomerInfo) : {};
 
             // 2. Collect all checked options for types of farce
-            const selectedFarces = [];
-            document.querySelectorAll('input[name="farce"]:checked').forEach((checkbox) => {
-                selectedFarces.push(checkbox.value);
-            });
+            // const selectedFarces = [];
+            // document.querySelectorAll('input[name="farce"]:checked').forEach((checkbox) => {
+            //     selectedFarces.push(checkbox.value);
+            // });
 
             // 3. Compile structural shipping info data object values
             const shippingData = {
                 qtyWanted: document.getElementById('chocolate-qty').value.trim(),
-                farceTypes: selectedFarces, 
+                // farceTypes: selectedFarces, 
                 region: document.getElementById('region-select').value,
                 homeType: document.getElementById('house-select').value,
                 address: document.getElementById('address-input').value.trim(),
@@ -416,11 +416,11 @@
                 "Alternative Phone": customer.phone2 || "None",
                 "Instagram Handle": customer.instagram || "None",
                 "Quantity Ordered": shippingData.qtyWanted || "Not defined",
-                "Types of Farce Chosen": selectedFarces.length > 0 ? selectedFarces.join(', ') : "None selected",
+                // "Types of Farce Chosen": selectedFarces.length > 0 ? selectedFarces.join(', ') : "None selected",
                 "Selected region": shippingData.region || "Not chosen",
                 "Building Classification": shippingData.homeType || "Not chosen",
                 "Delivery Address Street Name": shippingData.address || "Missing",
-                "Additional Order Details": shippingData.nameOfTheArticle || "None provided"
+                "the name of the article": shippingData.nameOfTheArticle || "None provided"
             };
 
             // 5. Personalize the modal window template message block on-screen
@@ -454,7 +454,13 @@
                 window.location.href = 'index.html';
             }, 15000); 
         });
-
+                document.getElementById('continueBtn').addEventListener('click',function(event){
+            const articleInput = document.getElementById("article's name");
+            if (articleInput.value.trim()===""){
+                alert ("please fill out the article name before continuing.");
+                return;
+            }
+        });
     </script>
 </body>
 </html>

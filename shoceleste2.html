@@ -145,32 +145,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Sélecteurs de couleur ronds */
-        .color-selectors {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-
-        .color-dot {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid #e0e0e0;
-            transition: border-color 0.2s, transform 0.2s;
-        }
-
-        .color-dot.active {
-            transform: scale(1.2);
-            border:#000000 solid 2px;
-        }
-
-        /* Couleurs indicatives pour vos chocolats (Noir, Lait, Blanc) */
-        .dot-dark { background-color: #3d2415; }
-        .dot-milk { background-color: #7b4c2e; }
-        .dot-white { background-color: #f7eedb; }
-
         /* Actions d'achat de la barre inférieure */
         .purchase-actions {
             display: flex;
@@ -231,20 +205,20 @@
         <div class="product-gallery">
             <div class="main-image-container">
                 <!-- Image principale par défaut -->
-                <img id="mainProductImg" src="bouquet1.jpg" alt="Bouquet en fleur en chocolat">
+                <img id="mainProductImg" src="tarts.jpg" alt="Bouquet en fleur en chocolat">
             </div>
             
             <div class="thumbnails-row">
                 <!-- Vos deux visuels locaux réels et un placeholder tiers -->
-                <img class="thumbnail active" src="bouquet1.jpg" alt="Miniature 1" onclick="changeImage(this)">
-                <img class="thumbnail" src="bouquet2.jpg" alt="Miniature 2" onclick="changeImage(this)">
-                <img class="thumbnail" src="bouquet3.jpg" alt="Miniature 3" onclick="changeImage(this)">
+                <img class="thumbnail active" src="tarts.jpg" alt="Miniature 1" onclick="changeImage(this)">
+                <img class="thumbnail" src="tarts1.jpg" alt="Miniature 2" onclick="changeImage(this)">
+                <img class="thumbnail" src="tarts2.jpg" alt="Miniature 3" onclick="changeImage(this)">
             </div>
         </div>
 
         <!-- Section Infos Produit -->
         <div class="product-info">
-            <h1>Bouquet en fleur en chocolat</h1>
+            <h1>berry blush tarts</h1>
             <div class="status-available">Available</div>
 
             <!-- Description -->
@@ -253,21 +227,21 @@
             </div>
             
             <div class="description-content">
-                <p>Un magnifique bouquet composé de délicates fleurs sculptées à base de chocolat fin. Une alternative élégante et gourmande aux fleurs traditionnelles, parfaite pour offrir une attention inoubliable.</p>
-                <p>Fait à la main avec du chocolat de couverture de qualité supérieure (noir, au lait et blanc) fourrées de caramel et fruits secs .</p>
+                <p>tout commence par une pate sablee artisanale , doree et croustillante a souhait . nous y deposons ensuite un genereux tourbillon de notre creme signature</p>
+                <p>et onctueuse, avant de couronner le tout de fraises fraiches .</p>
                 <p class="limited-stock">Limited quantity ❌</p>
             </div>
 
             <!-- Prix mis à jour -->
-            <div class="product-price">1500 DA</div>
+            <div class="product-price">80 DA</div>
 
             <!-- Variations Chocolats -->
-            <div class="color-selectors">
+            <!-- <div class="color-selectors">
                 <div class="color-dot dot-dark" title="Chocolat Noir"></div>
                 <div class="color-dot dot-milk" title="Chocolat au Lait"></div>
                 <div class="color-dot dot-white" title="Chocolat Blanc"></div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Boutons d'interaction bas de page -->
     <div class="purchase-actions">
@@ -282,23 +256,41 @@
     </button>
 </div>
 
+
+
 <script>
-    let selectedColor = 'Chocolat Noir';
-    let currentQty = 1; // ✅ moved to global scope
 
-    const colorvalues = {
-        'dot-dark': 'Chocolat Noir',
-        'dot-milk': 'Chocolat au Lait',
-        'dot-white': 'Chocolat Blanc'
+    // 1. Gestion de la quantité globale
+    let currentQty = 1;
+    const qtySpan = document.getElementById('quantityValue');
+
+    function updateQty(change) {
+        // Calcule la nouvelle quantité
+        let newQty = currentQty + change;
+        
+        // Empêche de descendre en dessous de 1 article
+        if (newQty >= 1) {
+            currentQty = newQty;
+            qtySpan.textContent = currentQty;
+        }
     }
-    document.querySelectorAll('.color-dot').forEach(dot => {
-        dot.addEventListener('click', () => {
-            document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-            dot.classList.add('active');
-            selectedColor = colorvalues[dot.classList[1]]; // ✅ update selected color
-        });
-    });
 
+    // // 2. Gestion de l'ajout au panier et de la redirection
+    // function addtocartandredirect() {
+    //     // On sauvegarde le produit choisi et sa quantité dans la mémoire du navigateur (localStorage)
+    //     const cartItem = {
+    //         name: "Berry Blush Tarts",
+    //         price: 80,
+    //         quantity: currentQty,
+    //         image: "tarts.jpg" // Ajustez le chemin vers l'image de votre tarte
+    //     };
+
+    //     // Stockage sous forme de texte pour que la page cartceleste.html puisse la lire
+    //     localStorage.setItem('shoppingCartItem', JSON.stringify(cartItem));
+
+    //     // Redirection instantanée vers la page du panier
+    //     window.location.href = "cartceleste.html";
+    // }
     function changeImage(element) {
         const mainImg = document.getElementById('mainProductImg');
         mainImg.style.opacity = '0.3';
@@ -310,29 +302,28 @@
         element.classList.add('active');
     }
 
-    function updateQty(amount) {
-        currentQty += amount;
-        if (currentQty < 1) currentQty = 1;
-        document.getElementById('quantityValue').innerText = currentQty;
-    }
+    // function updateQty(amount) {
+    //     currentQty += amount;
+    //     if (currentQty < 1) currentQty = 1;
+    //     document.getElementById('quantityValue').innerText = currentQty;
+    // }
 
     function addtocartandredirect() {
         const mainImg = document.getElementById('mainProductImg');
-        const currentimg = mainImg ? mainImg.src : 'bouquet1.jpg';
+        const currentimg = mainImg ? mainImg.src : 'tarts.jpg';
         const activeColorDot = document.querySelector('.color-dot.active')
         const selectedColorHex = activeColorDot ? window.getComputedStyle(activeColorDot).backgroundColor: 'default';
         const orderdata = {
             image: currentimg,
-            name: 'Bouquet en fleur en chocolat',
+            name: 'berry blush tarts',
             color: selectedColorHex,
             quantity: currentQty,
-            price: 1500
+            price: 80
         };
         localStorage.setItem('savedcartitem', JSON.stringify(orderdata)); // ✅ saves first
-        window.location.href = 'cartceleste.html'; // ✅ then redirects
+        window.location.href = 'cartceleste2.html'; // ✅ then redirects
     }
 </script>
-    </div>
 
 </body>
 </html>
